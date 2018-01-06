@@ -125,14 +125,26 @@ public class Matrix
 		}
 		
 	}
-		/*
-		1 1 1
-		2 0 0
-		2 0 2
-	
-		1 1 1
-		*/
-
+	public void rref()
+	{
+		this.rowEchelon();
+		for(int i = rows - 1; i >= 0; i--)
+		{
+			for(int j = 0; j < cols; j++)
+			{
+				if(matrix[i][j] == 1)
+				{
+					for(int k = 0; k < i; k++)
+					{
+						if(matrix[k][j] != 0)
+						{
+							addRowMultiple(k, i, -1*(matrix[k][j]));
+						}	
+					}
+				}
+			}
+		}
+	}
 	/* **Getter and Setter Methods** */
 	public int getRows()
 	{
@@ -176,13 +188,17 @@ public class Matrix
 
 	public static void main(String args[])
 	{
-		float[] y = {0, 0, 0, 1, 0, 1, 2, 1, 1, 0, 0, 0};
+		float[] y = {1, 1, 1, 2, 1, 0, 0, 0, 1};
 		Matrix sand = new Matrix();
-		Matrix witch = new Matrix(3, 4, y);
+		Matrix witch = new Matrix(3, 3, y);
 		witch.fillMatrix();
 		sand.printMatrix();
 		witch.printMatrix();
+		System.out.println("Row Echelon Form:");
 		witch.rowEchelon();
+		witch.printMatrix();
+		System.out.println("Reduced Row Echelon Form:");
+		witch.rref();
 		witch.printMatrix();
 		
 	}
