@@ -1,9 +1,9 @@
-public class Matrix
+public class Matrix extends MatrixCalculator
 {
-	int rows;
-	int cols;
-	float vals[];
-	float matrix[][];
+	private int rows;
+	private int cols;
+	private float vals[];
+	private float matrix[][];
 
 	/* Default constructor: greats a 2 x 2 matrix filled with 0s */
 	public Matrix()
@@ -21,6 +21,7 @@ public class Matrix
 		cols = c;
 		vals = v;
 		matrix = new float[r][c];
+		fillMatrix();
 	}
 	
 	/* Prints matrix in terminal  */
@@ -53,7 +54,7 @@ public class Matrix
 			{
 				for(int j = 0; j < cols; j++)
 				{
-					matrix[i][j] = vals[rows * i + j];
+					matrix[i][j] = vals[cols * i + j];
 				}
 			}
 		}
@@ -145,6 +146,28 @@ public class Matrix
 			}
 		}
 	}
+
+	public boolean isDiagonal()
+	{
+		if(rows != cols)
+		{
+			return false;
+		}
+		else {
+			for(int i = 0; i < rows; i++)
+			{
+				for(int j = 0; j < cols; j++)
+				{
+					if(i != j && matrix[i][j] != 0)
+					{
+						return false;
+					}
+				}
+			}
+		}	
+		return true;
+	}
+
 	/* **Getter and Setter Methods** */
 	public int getRows()
 	{
@@ -188,18 +211,12 @@ public class Matrix
 
 	public static void main(String args[])
 	{
-		float[] y = {1, 1, 1, 2, 1, 0, 0, 0, 1};
+		float[] y = {1, 0, 0, 0, 1, 0, 0, 0, 1};
 		Matrix sand = new Matrix();
 		Matrix witch = new Matrix(3, 3, y);
-		witch.fillMatrix();
-		sand.printMatrix();
-		witch.printMatrix();
-		System.out.println("Row Echelon Form:");
-		witch.rowEchelon();
-		witch.printMatrix();
-		System.out.println("Reduced Row Echelon Form:");
-		witch.rref();
-		witch.printMatrix();
-		
+		System.out.println(witch.isDiagonal());
+		System.out.println(sand.isDiagonal());
+		witch.addRowMultiple(1,2, 1);
+		System.out.println(witch.isDiagonal());
 	}
 }
